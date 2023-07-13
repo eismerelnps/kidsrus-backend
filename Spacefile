@@ -1,0 +1,17 @@
+# Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
+v: 0
+# icon: ./icon.png
+micros:
+  - name:kidsrus-b
+    src: ./src/app.js
+    engine: nodejs20
+    primary: true
+
+  - name: kidsrus-app
+    src: ./src/app.js
+    engine: node
+    commands:
+  - node ./src/app.js
+    run: ./main
+    include:
+      - main
