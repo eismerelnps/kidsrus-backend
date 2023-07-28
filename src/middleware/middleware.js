@@ -21,6 +21,9 @@ exports.authenticate = (req, res, next) => {
     });
   };
   
+
+
+
   // Middleware para verificar los permisos de un usuario
 exports.checkPermissions = (requiredPermissions) => {
     
@@ -28,12 +31,17 @@ exports.checkPermissions = (requiredPermissions) => {
     
     return (req, res, next) => {
       const  {role}  = req.user;
+      console.log("role")
+      console.log(role)
+
+      console.log("req")
+      console.log(req.user)
   
       // Verificar si el usuario tiene los permisos requeridos
       const hasPermissions = requiredPermissions.every((permission) => roleHasPermission(role, permission));
   
       if (!hasPermissions) {
-        return res.status(403).json({ message: 'No tiene permisos suficientes' });
+        return res.status(403).json({ message: 'Acceso Degnegado' });
       }
   
       next();
@@ -42,14 +50,20 @@ exports.checkPermissions = (requiredPermissions) => {
 
   // Verificar si un rol tiene un permiso específico
 function roleHasPermission(role, permission) {
+  
+  console.log("role : " + role)
+  console.log("permission: " + permission)
+  console.log(roles[role]);
    
    
     // Puedes definir la lógica para verificar los permisos de cada rol
     // Por ejemplo, utilizando un objeto o una base de datos
     // En este ejemplo básico, solo se permite el acceso completo para el rol 'superadmin'
     if (roles.hasOwnProperty(role) && roles[role].permissions.includes(permission)) {
-        return true;
+      console.log("tiene permisos")
+      return true;
       } else {
+        console.log("no tiene permisos")
         return false;
       }
       

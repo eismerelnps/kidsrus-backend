@@ -5,7 +5,7 @@ const roles = {
       permissions: ['create', 'read', 'update', 'delete'],
     },
     admin: {
-      permissions: ['read', 'update'],
+      permissions: ['read', 'create', 'update'],
     },
     user: {
       permissions: ['read'],

@@ -9,13 +9,13 @@ const middleware = require('../middleware/middleware');
 const router = express.Router();
 
 // Ruta para obtener todos los productos
-router.get('/', productController.getAllProducts);
+router.get('/',middleware.authenticate, middleware.checkPermissions(['create']), productController.getAllProducts);
 
 // Ruta para obtener un producto por su ID
 router.get('/:id', middleware.authenticate, productController.getProductById);
 
 // Ruta para crear un nuevo producto
-router.post('/', middleware.authenticate, middleware.checkPermissions(['create', 'read', 'update', 'delete']), createProductValidators, productController.createProduct);
+router.post('/', middleware.authenticate, middleware.checkPermissions(['create']), createProductValidators, productController.createProduct);
 
 // Ruta para actualizar un producto por su ID
 router.put('/:id', middleware.checkPermissions(['update']), productController.updateProductById);
