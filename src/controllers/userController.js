@@ -88,7 +88,6 @@ exports.updateUserById = async (req, res) => {
   }
 };
 
-
 exports.login = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -96,19 +95,23 @@ exports.login = async (req, res) => {
     // Buscar al usuario en la base de datos
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(401).json({ message: "Usuario o contraseña incorrectos" });
+      return res
+        .status(401)
+        .json({ message: "Usuario o contraseña incorrecto" });
     }
 
     // Verificar la contraseña
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      return res.status(401).json({ message: "Usuario o contraseña incorrectos" });
+      return res
+        .status(401)
+        .json({ message: "Usuario o contraseña incorrecto" });
     }
 
     if (user.logged) {
       // Si el usuario ya está autenticado, generar un nuevo token JWT y retornarlo con el usuario
       const token = jwt.sign(
-        { id: user._id, username: user.username },
+        { id: user._id, username: user.username, role: user.role },
         process.env.JWT_SECRET,
         { expiresIn: "1h" }
       );
